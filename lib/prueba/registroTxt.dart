@@ -2,28 +2,18 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import '../login/registerData.dart';
 import '../selectBox/register/selectBoxRegister.dart';
 
 class RegisterFields extends StatefulWidget {
-  final void Function(String) onWriteName;
-  final void Function(String) onWriteEmail;
-  final void Function(String) onWriteCel;
-  final void Function(String) onChoosePoliticalParty;
-  final void Function(bool) onChooseTypeofChargePass;
-  final void Function(String) onChooseLegislativeCharge;
-  final void Function(String) onChooseAdminPublicCharge;
-  final void Function(String) onChoosePassword;
+  final RegisterData registerData;
+  final void Function(RegisterData) onUpdate;
 
-  const RegisterFields(
-      {super.key,
-      required this.onChooseTypeofChargePass,
-      required this.onWriteName,
-      required this.onWriteEmail,
-      required this.onWriteCel,
-      required this.onChoosePoliticalParty,
-      required this.onChooseLegislativeCharge,
-      required this.onChooseAdminPublicCharge,
-      required this.onChoosePassword});
+  const RegisterFields({
+    super.key,
+    required this.registerData,
+    required this.onUpdate,
+  });
 
   @override
   State<RegisterFields> createState() => _RegisterFieldsState();
@@ -32,7 +22,7 @@ class RegisterFields extends StatefulWidget {
 class _RegisterFieldsState extends State<RegisterFields> {
   bool showLegislativeCharges = false;
   bool showPublicAdminCharges = false;
-  bool chargeToPass = false;
+  bool chargeType = false;
   bool passwordsCorrect = true;
 
   TextEditingController nameRegController = TextEditingController();
@@ -43,6 +33,7 @@ class _RegisterFieldsState extends State<RegisterFields> {
   String _selectedPoliticalParty = '';
   String _selectedPublicCharge = '';
   String _selectedLegislativeCharges = '';
+  String subCharge = '';
 
   FocusNode focusNodeName = FocusNode();
   FocusNode focusNodeEmail = FocusNode();
@@ -82,15 +73,21 @@ class _RegisterFieldsState extends State<RegisterFields> {
   }
 
   void _onChooseTypeofCharge(bool chooseTypeofCharge) {
+    //true = PublicAdming y false = LegislativeCharges
+
     setState(() {
       if (chooseTypeofCharge == false) {
         showLegislativeCharges = true;
         showPublicAdminCharges = false;
-        widget.onChooseTypeofChargePass(!showLegislativeCharges);
+        chargeType = false;
+        subCharge = 'null';
+        //
+        //
       } else if (chooseTypeofCharge == true) {
         showLegislativeCharges = false;
         showPublicAdminCharges = true;
-        widget.onChooseTypeofChargePass(showPublicAdminCharges);
+        chargeType = true;
+        subCharge = 'null';
       }
     });
   }
@@ -99,10 +96,10 @@ class _RegisterFieldsState extends State<RegisterFields> {
     setState(() {
       if (selectedPoliticalParty == null) {
         _selectedPoliticalParty = 'null';
-        widget.onChoosePoliticalParty(_selectedPoliticalParty);
+        widget.registerData.politicalParty = _selectedPoliticalParty;
       } else {
         _selectedPoliticalParty = selectedPoliticalParty;
-        widget.onChoosePoliticalParty(_selectedPoliticalParty);
+        widget.registerData.politicalParty = _selectedPoliticalParty;
       }
     });
   }
@@ -111,10 +108,12 @@ class _RegisterFieldsState extends State<RegisterFields> {
     setState(() {
       if (selectedPublicCharge == null) {
         _selectedPublicCharge = 'null';
-        widget.onChooseAdminPublicCharge(_selectedPublicCharge);
+        subCharge = 'null';
+        widget.registerData.subCharge = _selectedPublicCharge;
       } else {
         _selectedPublicCharge = selectedPublicCharge;
-        widget.onChooseAdminPublicCharge(_selectedPublicCharge);
+        subCharge = selectedPublicCharge;
+        widget.registerData.subCharge = _selectedPublicCharge;
       }
     });
   }
@@ -123,10 +122,12 @@ class _RegisterFieldsState extends State<RegisterFields> {
     setState(() {
       if (selectedLegislativeCharges == null) {
         _selectedLegislativeCharges = 'null';
-        widget.onChooseLegislativeCharge(_selectedLegislativeCharges);
+        subCharge = 'null';
+        widget.registerData.subCharge = subCharge;
       } else {
         _selectedLegislativeCharges = selectedLegislativeCharges;
-        widget.onChooseLegislativeCharge(_selectedLegislativeCharges);
+        subCharge = selectedLegislativeCharges;
+        widget.registerData.subCharge = subCharge;
       }
     });
   }
@@ -141,7 +142,15 @@ class _RegisterFieldsState extends State<RegisterFields> {
     setState(() {
       if (passwordRegController.text == passwordConfirmRegController.text) {
         passwordsCorrect = true;
-        widget.onChoosePassword(passwordConfirmRegController.text);
+        //
+        widget.registerData.name = nameRegController.text;
+        widget.registerData.email = emailRegController.text;
+        widget.registerData.cel = celController.text;
+        widget.registerData.politicalParty = _selectedPoliticalParty;
+        widget.registerData.chargeType = chargeType;
+        widget.registerData.subCharge = subCharge;
+        widget.registerData.password = passwordConfirmRegController.text;
+        widget.onUpdate(widget.registerData);
       } else {
         passwordsCorrect = false;
       }
@@ -209,12 +218,15 @@ class _RegisterFieldsState extends State<RegisterFields> {
               ),
             ),
             onTapOutside: (tapOut) {
+              widget.registerData.name = nameRegController.text;
               hideKeyBoard();
-              widget.onWriteName(nameRegController.text);
             },
             onEditingComplete: () {
+              widget.registerData.name = nameRegController.text;
               changeFocus(context, focusNodeName, focusNodeEmail);
-              widget.onWriteName(nameRegController.text);
+
+              //
+              //
             },
           ),
         ),
@@ -253,12 +265,16 @@ class _RegisterFieldsState extends State<RegisterFields> {
               ),
             ),
             onTapOutside: (tapOut) {
+              widget.registerData.email = emailRegController.text;
               hideKeyBoard();
-              widget.onWriteEmail(emailRegController.text);
+              widget.registerData.email = emailRegController.text;
+              //
+
+              //
             },
             onEditingComplete: () {
+              widget.registerData.email = emailRegController.text;
               changeFocus(context, focusNodeEmail, focusNodeCel);
-              widget.onWriteEmail(emailRegController.text);
             },
           ),
         ),
@@ -298,12 +314,13 @@ class _RegisterFieldsState extends State<RegisterFields> {
               ),
             ),
             onTapOutside: (tapOut) {
+              widget.registerData.cel = celController.text;
               hideKeyBoard();
-              widget.onWriteCel(celController.text);
+              //
             },
             onEditingComplete: () {
+              widget.registerData.cel = celController.text;
               hideKeyBoard();
-              widget.onWriteCel(celController.text);
             },
           ),
         ),
@@ -464,9 +481,11 @@ class _RegisterFieldsState extends State<RegisterFields> {
               ),
             ),
             onTapOutside: (tapOut) {
+              hideKeyBoard();
               comparePasswords();
             },
             onEditingComplete: () {
+              hideKeyBoard();
               comparePasswords();
             },
           ),
