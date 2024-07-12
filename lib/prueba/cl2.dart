@@ -227,7 +227,13 @@ Widget buildPageContent(
                                           MediaQuery.of(context).size.width *
                                               0.075,
                                       fontWeight: FontWeight.bold,
-                                    ))
+                                    )),
+                                ///flybtn
+                                ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.pushReplacementNamed(context, '/videoPlayer');
+                                    },
+                                    child: const Text('FlyBtn'))
                               ])),
                       Padding(
                         padding: EdgeInsets.symmetric(
@@ -246,12 +252,12 @@ Widget buildPageContent(
                             ),
                           ),
                           onTapOutside: (tapOut) {
-                            /*    onLogin(emailLogController.text,
-                                passwordLogController.text);*/
+                            onLogin(emailLogController.text,
+                                passwordLogController.text);
                           },
                           onEditingComplete: () {
-                            /*             onLogin(emailLogController.text,
-                                passwordLogController.text);*/
+                            onLogin(emailLogController.text,
+                                passwordLogController.text);
                           },
                         ),
                       ),
@@ -282,12 +288,12 @@ Widget buildPageContent(
                                   borderRadius: BorderRadius.circular(12.0),
                                 )),
                             onTapOutside: (tapOut) {
-                              /*        onLogin(emailLogController.text,
-                                  passwordLogController.text);*/
+                              onLogin(emailLogController.text,
+                                  passwordLogController.text);
                             },
                             onEditingComplete: () {
-/*                              onLogin(emailLogController.text,
-                                  passwordLogController.text);*/
+                              onLogin(emailLogController.text,
+                                  passwordLogController.text);
                             },
                           )),
                       Padding(
@@ -298,9 +304,7 @@ Widget buildPageContent(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 TextButton(
-                                    onPressed: () {
-                                      //widget.onChangePage(currentpage);
-                                    },
+                                    onPressed: () {},
                                     child: const Text(
                                       'Olvidaste tu contraseña?',
                                       style: TextStyle(

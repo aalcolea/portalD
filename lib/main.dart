@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tiktokgov/views/videoStuff/videoFeed.dart';
 
 import 'login/landing.dart';
 
@@ -13,14 +14,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-        ),
-        home: const Scaffold(
-          body: Landing(),
-        ));
+      debugShowCheckedModeBanner: false,
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+      ),
+      home: const Scaffold(
+        body: Landing(),
+      ),
+      routes: {
+        '/videoPlayer': (context) => VideoFeed(),
+      },
+    );
   }
 }
