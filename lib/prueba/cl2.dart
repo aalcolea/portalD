@@ -231,7 +231,7 @@ Widget buildPageContent(
                                 ///flybtn
                                 ElevatedButton(
                                     onPressed: () {
-                                      Navigator.pushReplacementNamed(context, '/videoPlayer');
+                                      Navigator.pushReplacementNamed(context, '/mainFeed');
                                     },
                                     child: const Text('FlyBtn'))
                               ])),

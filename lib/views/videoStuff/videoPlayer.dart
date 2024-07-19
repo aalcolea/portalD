@@ -75,7 +75,7 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
               ),
             ),
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.3,
+              height: MediaQuery.of(context).size.height * 0.2,
             ),
             Padding(
               padding: EdgeInsets.only(
@@ -94,7 +94,6 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                 ),
                 child: CircleAvatar(
                   radius: MediaQuery.of(context).size.width * 0.06,
-                  // backgroundImage: NetworkImage('https://example.com/image.jpg'), // Puedes agregar una imagen de fondo si lo deseas
                 ),
               ),
             ),
@@ -227,12 +226,6 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                                   Icons.music_note_rounded,
                                   color: Color(0xFFFFFFFF),
                                 ),
-                                /* Text(
-                          'Avicii - Waiting For Love (ft. Licho Aguila y Alcoshit)',
-                          style: TextStyle(color: const Color(0xFFFFFFFF),
-                            fontSize: MediaQuery.of(context).size.width * 0.045,
-                          ),
-                        ),*/
                                 SizedBox(
                                   width:
                                       MediaQuery.of(context).size.width * 0.75,
@@ -268,7 +261,6 @@ class _VideoPlayerScreenState extends State<VideoPlayerScreen> {
                             ),
                             child: CircleAvatar(
                               radius: MediaQuery.of(context).size.width * 0.06,
-                              // backgroundImage: NetworkImage('https://example.com/image.jpg'), // Puedes agregar una imagen de fondo si lo deseas
                             ),
                           ),
                         ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tiktokgov/views/videoStuff/videoFeed.dart';
 
+import 'admin/feed.dart';
 import 'login/landing.dart';
 
 void main() {
@@ -25,6 +26,7 @@ class MyApp extends StatelessWidget {
       ),
       routes: {
         '/videoPlayer': (context) => VideoFeed(),
+        '/mainFeed': (context) => MainFeed(),
       },
     );
   }
