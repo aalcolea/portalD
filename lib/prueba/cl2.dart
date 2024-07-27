@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:tiktokgov/prueba/registroTxt.dart';
+import '../login/registerData.dart';
 import 'cl1.dart';
 
 class FadePageView extends StatefulWidget {
@@ -30,13 +31,16 @@ class _FadePageViewState extends State<FadePageView> {
   String typeOfChargeSelected = '';
   String legislativeCharge = '';
   String publicAdminCharge = '';
+  String subCharge = '';
   String passwordRegister = '';
 
   //
   String usserLog = '';
   String passwordLog = '';
-
   bool _isObscured = true;
+
+  //
+  RegisterData _registerData = RegisterData();
 
   void _togglePasswordView(bool isObscured) {
     setState(() {
@@ -45,64 +49,6 @@ class _FadePageViewState extends State<FadePageView> {
       } else if (isObscured == false) {
         _isObscured = true;
       }
-    });
-  }
-
-  void _onChooseTypeofCharge(bool chooseTypeofCharge) {
-    setState(() {
-      if (chooseTypeofCharge == false) {
-        _showLegislativeCharges = true;
-        _showPublicAdminCharges = false;
-        typeOfChargeSelected = 'Legislativo';
-      } else if (chooseTypeofCharge == true) {
-        _showLegislativeCharges = false;
-        _showPublicAdminCharges = true;
-        typeOfChargeSelected = 'Administración Pública';
-      }
-    });
-  }
-
-  void _onNameSave(String nameSave) {
-    setState(() {
-      nameController.text = nameSave;
-    });
-  }
-
-  void _onEmailSave(String emailSave) {
-    setState(() {
-      emailController.text = emailSave;
-    });
-  }
-
-  void _onCelSave(String celSave) {
-    setState(() {
-      celController.text = celSave;
-    });
-  }
-
-  void _onPoliticalPartySave(String politicalPartySave) {
-    setState(() {
-      politicalParty = politicalPartySave;
-    });
-  }
-
-  void _onChooseLegislativeCharge(String legislativeChargeSave) {
-    setState(() {
-      legislativeCharge = legislativeChargeSave;
-      publicAdminCharge = '';
-    });
-  }
-
-  void _onChoosePublicAdminCharge(String publicAdmingChargeSave) {
-    setState(() {
-      publicAdminCharge = publicAdmingChargeSave;
-      legislativeCharge = '';
-    });
-  }
-
-  void _onChoosePassword(String passwordSave) {
-    setState(() {
-      passwordRegister = passwordSave;
     });
   }
 
@@ -127,6 +73,15 @@ class _FadePageViewState extends State<FadePageView> {
       if (visibleKeyboard) {
         FocusScope.of(context).unfocus();
       }
+    });
+  }
+
+  void onHandleUptade(RegisterData data) {
+    setState(() {
+      _registerData = data;
+//las propiedades de este objeto son las que te deben de servir para mandar el registro o iniciar sesion
+      //el contenido se manda desde registroTxt  al momento de comprobar que las contraseñas son iguales en comparePasswords()
+      //me falta controlar ciertos posibles bugs pero ya puedes trabjar con ello
     });
   }
 
@@ -160,7 +115,6 @@ class _FadePageViewState extends State<FadePageView> {
             context,
             index,
             _pageController,
-            _onChooseTypeofCharge,
             _showLegislativeCharges,
             _showPublicAdminCharges,
             _togglePasswordView,
@@ -168,24 +122,11 @@ class _FadePageViewState extends State<FadePageView> {
             emailController,
             passwordController,
             visibleKeyboard,
-            _onNameSave,
-            nameController.text,
-            _onEmailSave,
-            emailController.text,
-            _onCelSave,
-            celController.text,
-            _onPoliticalPartySave,
-            politicalParty,
-            typeOfChargeSelected,
-            _onChooseLegislativeCharge,
-            legislativeCharge,
-            _onChoosePublicAdminCharge,
-            publicAdminCharge,
-            _onChoosePassword,
-            passwordRegister,
-            _onLogin,
             usserLog,
             passwordLog,
+            onHandleUptade,
+            _registerData,
+            _onLogin,
           ),
         );
       },
@@ -197,7 +138,6 @@ Widget buildPageContent(
   BuildContext context,
   int index,
   PageController pageController,
-  Function(bool) onChooseTypeofChargePass,
   bool showLegislativeCharges,
   bool showPublicAdminCharges,
   Function(bool) onShowPassword,
@@ -205,25 +145,27 @@ Widget buildPageContent(
   TextEditingController emailLogController,
   TextEditingController passwordLogController,
   bool visibleKeyboard,
-  Function(String) onNameSave,
-  String namePassed,
-  Function(String) onEmailSave,
-  String emailPassed,
-  Function(String) onCelSave,
-  String celPassed,
-  Function(String) onPoliticalPartySave,
-  String politicalPartyPassed,
-  String typeOfPoliticalChargePassed,
-  Function(String) onChooseLegislativeCharge,
-  String legislativeChargePassed,
-  Function(String) onChoosePublicAdminCharge,
-  String publicAdminChargePassed,
-  Function(String) onChoosePassword,
-  String passwordPassed,
-  Function(String, String) onLogin,
   String usserLogPassed,
   String passwordLogPassed,
+  Function(RegisterData) onHandleUptade,
+  RegisterData registerDataPassed,
+  Function(String, String) onLogin,
 ) {
+  RegisterData registerData = RegisterData();
+
+  void handleUpdate(RegisterData data) {
+    registerData = data;
+    print('<<<<<<<<<<<<object>>>>>>>>>>>>');
+    print('registerData.name ${registerData.name}');
+    print('registerData.email ${registerData.email}');
+    print('registerData.cel ${registerData.cel}');
+    print('registerData.partido ${registerData.politicalParty}');
+    print('registerData.chargeType ${registerData.chargeType}');
+    print('registerData.subcharge ${registerData.subCharge}');
+    print('registerData.password ${registerData.password}');
+    onHandleUptade(registerData);
+  }
+
   bool _isObscured = isObscured;
 
   void _togglePasswordView() {
@@ -242,44 +184,6 @@ Widget buildPageContent(
       duration: const Duration(milliseconds: 1750),
       curve: Curves.easeOutExpo,
     );
-  }
-
-  void _onWriteName(String nameField) {
-    onNameSave(nameField);
-  }
-
-  void _onWriteEmail(String emailField) {
-    onEmailSave(emailField);
-  }
-
-  void _onWriteCel(String celField) {
-    onCelSave(celField);
-  }
-
-  void _onChoosePoliticalParty(String politicalParty) {
-    onPoliticalPartySave(politicalParty);
-  }
-
-  void _onChooseTypeofCharge(bool chooseTypeofCharge) {
-    //true = PublicAdming y false = LegislativeCharges
-    onChooseTypeofChargePass(chooseTypeofCharge);
-  }
-
-  void _onChooseLegislativeCharge(String legislativeCharge) {
-    onChooseLegislativeCharge(legislativeCharge);
-  }
-
-  void _onChooseAdminPublicCharge(String adminPublicCharge) {
-    onChoosePublicAdminCharge(adminPublicCharge);
-    print('adminPublicCharge $adminPublicCharge');
-  }
-
-  void _onChoosePassword(String passwordField) {
-    onChoosePassword(passwordField);
-  }
-
-  void _onLogin(String usserField, String passwordField) {
-    onLogin(usserField, passwordField);
   }
 
   switch (index) {
@@ -323,7 +227,13 @@ Widget buildPageContent(
                                           MediaQuery.of(context).size.width *
                                               0.075,
                                       fontWeight: FontWeight.bold,
-                                    ))
+                                    )),
+                                ///flybtn
+                                ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.pushReplacementNamed(context, '/mainFeed');
+                                    },
+                                    child: const Text('FlyBtn'))
                               ])),
                       Padding(
                         padding: EdgeInsets.symmetric(
@@ -394,9 +304,7 @@ Widget buildPageContent(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 TextButton(
-                                    onPressed: () {
-                                      //widget.onChangePage(currentpage);
-                                    },
+                                    onPressed: () {},
                                     child: const Text(
                                       'Olvidaste tu contraseña?',
                                       style: TextStyle(
@@ -513,14 +421,8 @@ Widget buildPageContent(
                   child: SingleChildScrollView(
                     physics: const BouncingScrollPhysics(),
                     child: RegisterFields(
-                      onChooseTypeofChargePass: _onChooseTypeofCharge,
-                      onWriteName: _onWriteName,
-                      onWriteEmail: _onWriteEmail,
-                      onWriteCel: _onWriteCel,
-                      onChoosePoliticalParty: _onChoosePoliticalParty,
-                      onChooseLegislativeCharge: _onChooseLegislativeCharge,
-                      onChooseAdminPublicCharge: _onChooseAdminPublicCharge,
-                      onChoosePassword: _onChoosePassword,
+                      registerData: registerData,
+                      onUpdate: handleUpdate,
                     ),
                   ))
             ]),
@@ -532,15 +434,6 @@ Widget buildPageContent(
                       child: ElevatedButton(
                           onPressed: () {
                             FocusScope.of(context).unfocus();
-                            print('params to send');
-                            print('name:: $namePassed');
-                            print('email:: $emailPassed');
-                            print('cel:: $celPassed');
-                            print('partido:: $politicalPartyPassed');
-                            print('cargo:: $typeOfPoliticalChargePassed');
-                            print('legislativo:: $legislativeChargePassed');
-                            print('publico:: $publicAdminChargePassed');
-                            print('contra:: $passwordPassed');
                           },
                           style: ElevatedButton.styleFrom(
                             splashFactory: InkRipple.splashFactory,

@@ -36,6 +36,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.6
   flutter_keyboard_visibility: ^5.4.0
+  video_player: ^2.9.1
 
 
 dev_dependencies:
@@ -71,22 +72,37 @@ flutter:
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/assets-and-images/#from-packages
 
-  # To add custom fonts to your application, add a fonts section here,
+  # To add custom inter to your application, add a inter section here,
   # in this "flutter" section. Each entry in this list should have a
-  # "family" key with the font family name, and a "fonts" key with a
+  # "family" key with the font family name, and a "inter" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
+  # inter:
+  #   - family: Inter
+  #     inter:
+  #       - asset: inter/Schyler-Regular.ttf
+  #       - asset: inter/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
+  #     inter:
+  #       - asset: inter/TrajanPro.ttf
+  #       - asset: inter/TrajanPro_Bold.ttf
   #         weight: 700
   #
-  # For details regarding fonts from package dependencies,
+  # For details regarding inter from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+  fonts:
+    - family: Inter
+      fonts:
+        - asset: fonts/inter/Inter.ttf
+        - asset: fonts/inter/Inter-Bold.ttf
+          weight: 700
+        - asset: fonts/inter/Inter-ExtraBold.ttf
+          weight: 800
+        - asset: fonts/inter/Inter-ExtraLight.ttf
+          weight: 200
+        - asset: fonts/inter/Inter-ExtraLight.ttf
+        - asset: fonts/inter/Inter-Light.ttf
+          weight: 400
+
